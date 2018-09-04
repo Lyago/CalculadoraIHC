@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+ <head>
+ <title>GUI de Calculadora</title>
+ <meta name="author" content="Lyago">
+ <meta name="copyright" content="PI/IHC">
+ <meta name="keywords" content="HTML">
+ <style type="text/css">
+ /* Conteúdo do CSS */
+ /* formatação do corpo do documento HTML */
+ body {
+ /* cor de fundo */
+ background-color: rgb(220,220,220);
+ }
+ /* formatação dos elementos input do formulário com a classe=limpar */
+ form input.limpar {
+ /* largura em pixels */
+ width: 70px;
+ /* cor de fundo */
+ background-color: rgb(255,0,0);
+ /* cor da fonte */
+ color: rgb(255,255,255);
+ /* estilo da fonte como negrito */
+ font-weight: bold;
+ }
+ /* formatação dos elementos input do formulário com a classe=oper */
+ form input.oper {
+ width: 70px;
+ background-color: rgb(173,216,230);
+ font-weight: bold;
+ }
+ /* formatação dos elementos label do formulário com a classe=num */
+ form label.num {
+ color: rgb(0,0,255);
+ font-weight: bold;
+ }
+ /* formatação dos elementos label do formulário com a classe=res */
+ form label.res {
+ color: rgb(255,0,0);
+ font-weight: bold;
+ }
+ </style>
+ <script language="JavaScript" type="text/javascript"
+src="numberFormat154.js"></script>
+ <script language="JavaScript" type="text/javascript">
+ 
+     /* Conteúdo do JavaScript */
+ var i = 2;
+ // Função que limpa as caixas de texto da calculadora e todas as variáveis existentes.
+ function Limpar() {
+ // limpa o valor da caixa de texto num1 do formulário calculadora do documento HTML
+ document.calculadora.num1.value = '';
+ // limpa o valor da caixa de texto num2 do formulário calculadora do documento HTML
+ document.calculadora.num2.value = '';
+ // limpa o valor da caixa de texto resultado do formulário calculadora do documento HTML
+ document.calculadora.resultado.value = '';
+ // apaga a variável de memória valor1
+ delete valor1;
+ // apaga a variável de memória valor2
+ delete valor2;
+ // apaga a variável de memória valor
+ delete valor;
+ }
+ // Função que executa as quatro operações básicas da calculadora, passando como parâmetro a operação (oper)
+function Calcula(oper) {
+    // cria a variável de memória valor1 com o valor da caixa de texto num1 do formulário calculadora do documento HTML
+    var valor1 = document.calculadora.num1.value;
+    // cria a variável de memória valor2 com o valor da caixa de texto num2 do formulário calculadora do documento HTML
+    var valor2 = document.calculadora.num2.value;
+    // verifica se a operação é de soma
+    if (oper == "somar") {
+        // cria a variável de memória valor com o valor da soma de valor1 e valor2 convertidos para float
+        var valor = parseFloat(valor1) + parseFloat(valor2);
+    }
+    // verifica se a operação é de subtração
+    else if (oper == "subtrair") {
+        // cria a variável de memória valor com o valor da subtração de valor1 e valor2 convertidos para float
+        var valor = parseFloat(valor1) - parseFloat(valor2);
+    }
+    // verifica se a operação é de multiplicação
+    else if (oper == "multiplicar") {
+        // cria a variável de memória valor com o valor da multiplicação de valor1 e valor2 convertidos para float
+        var valor = parseFloat(valor1) * parseFloat(valor2);
+    }
+    // verifica se a operação é de divisão
+    else if (oper == "dividir") {
+        // cria a variável de memória valor com o valor da divisão de valor1 e valor2 convertidos para float
+        var valor = parseFloat(valor1) / parseFloat(valor2);
+    }
+    // verifica se a operação é de elevar ao quadrado
+    else if (oper == "Quadrado") {
+        // cria a variável de memória valor com o valor da divisão de valor1 convertido para float
+        var valor = Math.pow(parseFloat(valor1),2);
+    }
+    // verifica se a operação é de raiz
+    else if (oper == "Raiz") {
+        // cria a variável de memória valor com o valor da divisão de valor1 convertido para float
+        var valor =  Math.sqrt(parseFloat(valor1));
+    }
+    // verifica se a operação é de Potencia
+    else if (oper == "Potencia") {
+        // cria a variável de memória valor com o valor da divisão de valor1 e valor2 convertidos para float
+        var valor = Math.pow(parseFloat(valor1),parseFloat(valor2));
+    }
+
+    // atribui o conteúdo de valor para a caixa de texto resultado do formulário calculadora do documento HTML
+    document.calculadora.resultado.value = valor;
+}
+ 
+function Formata(type){
+    var resultado = document.calculadora.resultado.value;
+    var formato = new NumberFormat(resultado, '.');
+    formato.setSeparators(true,',','.');
+    if(type == "Porcentagem"){
+        document.calculadora.resultado.value = formato.toPercentage();  
+    }else{  
+        if(type == "Reais"){
+            formato.setCurrency(true);
+            formato.setCurrencyValue('R$');
+            formato.setCurrencyPosition(formato.LEFT_OUTSIDE);
+        }
+
+        else if(type == "Aumentar"){
+            i++;   
+            formato.setPlaces(i,true);
+            
+        }
+        else if(type == "Diminuir"){
+            i--;
+            formato.setPlaces(i,true);   
+        }
+        // atribui o conteúdo de formato para a caixa de texto resultado do formulário calculadora do documento HTML
+        document.calculadora.resultado.value = formato.toFormatted();
+    }
+}
+ 
+ </script>
+ </head>
+ <body>
+ <!-- cria um formulário com o nome de calculadora -->
+ <form name="calculadora" method="post" action="">
+ <fieldset>
+ <legend>Calculadora</legend>
+ <!-- cria uma tabela com 4 linhas e 4 colunas -->
+ <table>
+ <!-- define o corpo da tabela -->
+ <tbody>
+ <!-- primeira linha da tabela -->
+ <tr>
+ <!-- coluna 1 da tabela -->
+ <td><label class="num" for="num1">1º Num</label></td>
+ <!-- coluna 2 da tabela -->
+ <td><input name="num1" id="num1" type="text" size="5"></td>
+ <!-- coluna 3 da tabela -->
+ <td><input name="somar" class="oper" value="+"
+onclick="Calcula('somar')" type="button"></td>
+ <!-- coluna 4 da tabela -->
+ <td><input name="subtrair" class="oper" value="-"
+onclick="Calcula('subtrair')" type="button"></td>
+ </tr>
+ <!-- segunda linha da tabela -->
+ <tr>
+ <td><label class="num" for="num2">2º Num</label></td>
+ <td><input name="num2" id="num2" type="text" size="5"></td>
+ <td><input name="multiplicar" class="oper" value="x"
+onclick="Calcula('multiplicar')" type="button"></td>
+ <td><input name="dividir" class="oper" value="/"
+onclick="Calcula('dividir')" type="button"></td>
+ </tr>
+ <!-- terceira linha da tabela -->
+ <tr>
+ <td><label class="res" for="resultado">Resultado</label></td>
+ <td><input name="resultado" id="resultado" type="text" readonly="true" size="5"></td>
+ <td><input name="Quadrado" class="oper" value="Quadrado"
+onclick="Calcula('Quadrado')" type="button"></td>
+ <td><input name="Potencia" class="oper" value="Potência"
+onclick="Calcula('Potencia')" type="button"></td>
+ </tr>
+ <!-- quarta linha da tabela -->
+ <tr>
+ <td><input name="raiz" class="oper" value="Raiz"
+onclick="Calcula('Raiz')" type="button"></td>
+ <td><input name="moeda" class="oper" value="0.00"
+onclick="Formata('Moeda')" type="button"></td>    
+ <td><input name="reais" class="oper" value="R$"
+onclick="Formata('Reais')" type="button"></td>
+ <td><input class="oper" name="porcentagem" value="0.00%"
+onclick="Formata('Porcentagem')" type="button"></td>
+ </tr>
+ <!-- quinta linha da tabela -->
+ <tr>
+ <td></td>    
+ <td><input name="aumentar" class="oper" value=">>"
+onclick="Formata('Aumentar')" type="button"></td>
+ <td><input name="diminuir" class="oper" value="<<"
+onclick="Formata('Diminuir')" type="button"></td>
+ <td><input class="limpar" name="limpar" value="Limpar"
+onclick="Limpar()" type="button"></td>
+ </tr>
+ </tbody>
+ </table>
+ </fieldset>
+ </form>
+ </body>
+</html>
